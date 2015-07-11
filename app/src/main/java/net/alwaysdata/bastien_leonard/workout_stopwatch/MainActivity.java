@@ -38,7 +38,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Button;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener {
     // Delay until the next timer refresh, in milliseconds
     private static final long REFRESH_DELAY = 100L;
 
@@ -93,6 +93,25 @@ public class MainActivity extends Activity {
 
         refreshTimer();
         refreshSetsCount();
+
+        mStart.setOnClickListener(this);
+        mReset.setOnClickListener(this);
+        mResetSetsCountButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.start:
+                start();
+                break;
+            case R.id.reset:
+                reset();
+                break;
+            case R.id.reset_sets_count_button:
+                resetSetsCount();
+                break;
+        }
     }
 
     @Override
@@ -119,7 +138,7 @@ public class MainActivity extends Activity {
         mHandler.removeCallbacks(mUpdater);
     }
 
-    public void start(View view) {
+    public void start() {
         if (!mRunning) {
             mRunning = true;
             ++mSetsCount;
@@ -135,7 +154,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void reset(View view) {
+    public void reset() {
         if (!mRunning) {
             mResetSetsCountButton.setEnabled(true);
             mTotalTime = 0;
@@ -144,7 +163,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void resetSetsCount(View view) {
+    public void resetSetsCount() {
         mSetsCount = 0;
         mResetSetsCountButton.setEnabled(false);
         refreshSetsCount();

@@ -53,20 +53,17 @@ SUCH DAMAGE.
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/start"
-            android:onClick="start" />
+            android:text="@string/start" />
     <Button android:id="@+id/reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/reset"
-            android:onClick="reset" />
+            android:text="@string/reset" />
   </LinearLayout>
 
   <Button android:id="@+id/reset_sets_count_button"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:text="@string/reset_sets"
-          android:onClick="resetSetsCount"
           android:enabled="false" />
 </LinearLayout>
