@@ -27,7 +27,6 @@
 
 package net.alwaysdata.bastien_leonard.workout_stopwatch;
 
-
 import java.lang.Runnable;
 
 import android.app.Activity;
@@ -37,60 +36,52 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
 
-public class MainActivity extends Activity
-{
-    private TextView time;
-    private Button start;
-    private Button reset;
-    private TextView setsCounter;
-    private Button resetSetsCountButton;
-    private boolean running = false;
-    private long totalTime;
-    private long lastTick;
-    private int setsCount;
-
+public class MainActivity extends Activity {
     // Delay until the next timer refresh, in milliseconds
-    private int refreshDelay = 100;
+    private static final long REFRESH_DELAY = 100L;
 
-    private final Runnable updater = new Runnable()
-    {
-        public void run()
-        {
-            if (running)
-            {
+    private TextView mTime;
+    private Button mStart;
+    private Button mReset;
+    private TextView mSetsCounter;
+    private Button mResetSetsCountButton;
+    private boolean mRunning = false;
+    private long mTotalTime;
+    private long mLastTick;
+    private int mSetsCount;
+
+    private final Runnable updater = new Runnable() {
+        public void run() {
+            if (mRunning) {
                 long newTick = SystemClock.elapsedRealtime();
-                long elapsed = newTick - lastTick;
-                totalTime += elapsed;
+                long elapsed = newTick - mLastTick;
+                mTotalTime += elapsed;
                 refreshTimer();
-                lastTick = newTick;
-                time.postDelayed(this, refreshDelay);
+                mLastTick = newTick;
+                mTime.postDelayed(this, REFRESH_DELAY);
             }
         }
     };
 
-    /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        time = (TextView)findViewById(R.id.time);
-        start = (Button)findViewById(R.id.start);
-        reset = (Button)findViewById(R.id.reset);
-        setsCounter = (TextView)findViewById(R.id.sets_counter);
-        resetSetsCountButton = (Button)findViewById(
-            R.id.reset_sets_count_button);
+        mTime = (TextView) findViewById(R.id.time);
+        mStart = (Button) findViewById(R.id.start);
+        mReset = (Button) findViewById(R.id.reset);
+        mSetsCounter = (TextView) findViewById(R.id.sets_counter);
+        mResetSetsCountButton = (Button) findViewById(
+                R.id.reset_sets_count_button);
 
-        if (savedInstanceState != null)
-        {
-            running = savedInstanceState.getBoolean("running");
-            totalTime = savedInstanceState.getLong("totalTime");
-            lastTick = savedInstanceState.getLong("lastTick");
-            setsCount = savedInstanceState.getInt("setsCount");
+        if (savedInstanceState != null) {
+            mRunning = savedInstanceState.getBoolean("mRunning");
+            mTotalTime = savedInstanceState.getLong("mTotalTime");
+            mLastTick = savedInstanceState.getLong("mLastTick");
+            mSetsCount = savedInstanceState.getInt("mSetsCount");
 
-            if (running)
-            {
-                time.post(updater);
+            if (mRunning) {
+                mTime.post(updater);
             }
         }
 
@@ -99,67 +90,57 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean("running", running);
-        outState.putLong("totalTime", totalTime);
-        outState.putInt("setsCount", setsCount);
-        outState.putLong("lastTick", lastTick);
+        outState.putBoolean("mRunning", mRunning);
+        outState.putLong("mTotalTime", mTotalTime);
+        outState.putInt("mSetsCount", mSetsCount);
+        outState.putLong("mLastTick", mLastTick);
     }
 
-    public void start(View view)
-    {
-        if (!running)
-        {
-            running = true;
-            ++setsCount;
+    public void start(View view) {
+        if (!mRunning) {
+            mRunning = true;
+            ++mSetsCount;
             refreshSetsCount();
-            reset.setEnabled(false);
-            lastTick = SystemClock.elapsedRealtime();
-            start.setText(getString(R.string.pause));
-            time.post(updater);
-        }
-        else
-        {
-            running = false;
-            reset.setEnabled(true);
-            start.setText(getString(R.string.start));
+            mReset.setEnabled(false);
+            mLastTick = SystemClock.elapsedRealtime();
+            mStart.setText(getString(R.string.pause));
+            mTime.post(updater);
+        } else {
+            mRunning = false;
+            mReset.setEnabled(true);
+            mStart.setText(getString(R.string.start));
         }
     }
 
-    public void reset(View view)
-    {
-        if (!running)
-        {
-            resetSetsCountButton.setEnabled(true);
-            totalTime = 0;
+    public void reset(View view) {
+        if (!mRunning) {
+            mResetSetsCountButton.setEnabled(true);
+            mTotalTime = 0;
             refreshTimer();
-            reset.setEnabled(false);
+            mReset.setEnabled(false);
         }
     }
 
-    public void resetSetsCount(View view)
-    {
-        setsCount = 0;
-        resetSetsCountButton.setEnabled(false);
+    public void resetSetsCount(View view) {
+        mSetsCount = 0;
+        mResetSetsCountButton.setEnabled(false);
         refreshSetsCount();
     }
 
-    private void refreshTimer()
-    {
-        long ticks = totalTime / 1000;
+    private void refreshTimer() {
+        long ticks = mTotalTime / 1000;
         long minutes = ticks / 60;
         long seconds = ticks % 60;
-        long fraction = (totalTime % 1000) / 100;
-        time.setText(String.format(getString(R.string.time_format),
-                                   minutes, seconds, fraction));
+        long fraction = (mTotalTime % 1000) / 100;
+        mTime.setText(String.format(getString(R.string.time_format),
+                minutes, seconds, fraction));
     }
 
-    private void refreshSetsCount()
-    {
-        setsCounter.setText(
-            String.format(getString(R.string.sets_count_format),
-                          setsCount));
+    private void refreshSetsCount() {
+        mSetsCounter.setText(
+                String.format(getString(R.string.sets_count_format),
+                        mSetsCount));
     }
 }
