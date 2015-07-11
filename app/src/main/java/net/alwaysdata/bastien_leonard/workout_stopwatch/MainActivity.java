@@ -31,6 +31,7 @@ import java.lang.Runnable;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.TextView;
@@ -49,8 +50,9 @@ public class MainActivity extends Activity {
     private long mTotalTime;
     private long mLastTick;
     private int mSetsCount;
+    private Handler mHandler;
 
-    private final Runnable updater = new Runnable() {
+    private final Runnable mUpdater = new Runnable() {
         public void run() {
             if (mRunning) {
                 long newTick = SystemClock.elapsedRealtime();
@@ -58,7 +60,7 @@ public class MainActivity extends Activity {
                 mTotalTime += elapsed;
                 refreshTimer();
                 mLastTick = newTick;
-                mTime.postDelayed(this, REFRESH_DELAY);
+                mHandler.postDelayed(this, REFRESH_DELAY);
             }
         }
     };
@@ -67,6 +69,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        mHandler = new Handler();
         mTime = (TextView) findViewById(R.id.time);
         mStart = (Button) findViewById(R.id.start);
         mReset = (Button) findViewById(R.id.reset);
@@ -79,10 +82,6 @@ public class MainActivity extends Activity {
             mTotalTime = savedInstanceState.getLong("mTotalTime");
             mLastTick = savedInstanceState.getLong("mLastTick");
             mSetsCount = savedInstanceState.getInt("mSetsCount");
-
-            if (mRunning) {
-                mTime.post(updater);
-            }
         }
 
         refreshTimer();
@@ -98,6 +97,21 @@ public class MainActivity extends Activity {
         outState.putLong("mLastTick", mLastTick);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (mRunning) {
+            mHandler.post(mUpdater);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mHandler.removeCallbacks(mUpdater);
+    }
+
     public void start(View view) {
         if (!mRunning) {
             mRunning = true;
@@ -106,7 +120,7 @@ public class MainActivity extends Activity {
             mReset.setEnabled(false);
             mLastTick = SystemClock.elapsedRealtime();
             mStart.setText(getString(R.string.pause));
-            mTime.post(updater);
+            mHandler.post(mUpdater);
         } else {
             mRunning = false;
             mReset.setEnabled(true);
