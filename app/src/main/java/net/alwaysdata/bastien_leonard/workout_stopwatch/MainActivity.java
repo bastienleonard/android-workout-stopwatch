@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Button;
 
@@ -74,6 +75,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mHandler = new Handler();
         mTime = (TextView) findViewById(R.id.time);
         mStart = (Button) findViewById(R.id.start);
