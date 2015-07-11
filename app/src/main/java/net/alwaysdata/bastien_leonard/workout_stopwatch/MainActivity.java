@@ -41,6 +41,11 @@ public class MainActivity extends Activity {
     // Delay until the next timer refresh, in milliseconds
     private static final long REFRESH_DELAY = 100L;
 
+    private static final String STATE_RUNNING = "running";
+    private static final String STATE_TOTAL_TIME = "totalTime";
+    private static final String STATE_LAST_TICK = "lastTick";
+    private static final String STATE_SETS_COUNT = "setsCount";
+
     private TextView mTime;
     private Button mStart;
     private Button mReset;
@@ -78,10 +83,10 @@ public class MainActivity extends Activity {
                 R.id.reset_sets_count_button);
 
         if (savedInstanceState != null) {
-            mRunning = savedInstanceState.getBoolean("mRunning");
-            mTotalTime = savedInstanceState.getLong("mTotalTime");
-            mLastTick = savedInstanceState.getLong("mLastTick");
-            mSetsCount = savedInstanceState.getInt("mSetsCount");
+            mRunning = savedInstanceState.getBoolean(STATE_RUNNING);
+            mTotalTime = savedInstanceState.getLong(STATE_TOTAL_TIME);
+            mLastTick = savedInstanceState.getLong(STATE_LAST_TICK);
+            mSetsCount = savedInstanceState.getInt(STATE_SETS_COUNT);
         }
 
         refreshTimer();
@@ -91,10 +96,10 @@ public class MainActivity extends Activity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean("mRunning", mRunning);
-        outState.putLong("mTotalTime", mTotalTime);
-        outState.putInt("mSetsCount", mSetsCount);
-        outState.putLong("mLastTick", mLastTick);
+        outState.putBoolean(STATE_RUNNING, mRunning);
+        outState.putLong(STATE_TOTAL_TIME, mTotalTime);
+        outState.putInt(STATE_SETS_COUNT, mSetsCount);
+        outState.putLong(STATE_LAST_TICK, mLastTick);
     }
 
     @Override
