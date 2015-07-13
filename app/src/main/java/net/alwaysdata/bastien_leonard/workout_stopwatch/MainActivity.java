@@ -51,7 +51,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button mStart;
     private Button mReset;
     private TextView mSetsCounter;
-    private Button mResetSetsCountButton;
+    private Button mResetSetsCount;
     private boolean mRunning = false;
     private long mTotalTime;
     private long mLastTick;
@@ -81,7 +81,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mStart = (Button) findViewById(R.id.start);
         mReset = (Button) findViewById(R.id.reset);
         mSetsCounter = (TextView) findViewById(R.id.sets_counter);
-        mResetSetsCountButton = (Button) findViewById(
+        mResetSetsCount = (Button) findViewById(
                 R.id.reset_sets_count_button);
 
         if (savedInstanceState != null) {
@@ -96,7 +96,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         mStart.setOnClickListener(this);
         mReset.setOnClickListener(this);
-        mResetSetsCountButton.setOnClickListener(this);
+        mResetSetsCount.setOnClickListener(this);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     public void reset() {
         if (!mRunning) {
-            mResetSetsCountButton.setEnabled(true);
+            mResetSetsCount.setEnabled(true);
             mTotalTime = 0;
             refreshTimer();
             mReset.setEnabled(false);
@@ -165,7 +165,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     public void resetSetsCount() {
         mSetsCount = 0;
-        mResetSetsCountButton.setEnabled(false);
+        mResetSetsCount.setEnabled(false);
         refreshSetsCount();
     }
 
