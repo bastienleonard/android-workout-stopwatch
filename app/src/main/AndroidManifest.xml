@@ -30,17 +30,17 @@ SUCH DAMAGE.
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="net.alwaysdata.bastien_leonard.workout_stopwatch"
-      android:versionCode="1"
-      android:versionName="1.0">
-  <application android:label="@string/app_name"
-               android:theme="@style/AppTheme">
-    <activity android:name="MainActivity"
-              android:label="@string/app_name">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
-    </activity>
-  </application>
+    android:versionCode="1"
+    android:versionName="1.0"
+    package="com.bastienleonard.workout_stopwatch">
+    <application android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.bastienleonard.workout_stopwatch.MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest> 

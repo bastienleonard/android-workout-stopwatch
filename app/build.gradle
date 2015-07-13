@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "net.alwaysdata.bastien_leonard.workout_stopwatch"
+        applicationId "com.bastienleonard.workout_stopwatch"
         minSdkVersion 4
         targetSdkVersion 22
     }

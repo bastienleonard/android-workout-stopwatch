@@ -25,7 +25,7 @@
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 // SUCH DAMAGE.
 
-package net.alwaysdata.bastien_leonard.workout_stopwatch;
+package com.bastienleonard.workout_stopwatch;
 
 import java.lang.Runnable;
 
