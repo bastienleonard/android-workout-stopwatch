@@ -91,6 +91,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             mSetsCount = savedInstanceState.getInt(STATE_SETS_COUNT);
         }
 
+        refreshButtons();
         refreshTimer();
         refreshSetsCount();
 
@@ -139,19 +140,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     public void start() {
-        if (!mRunning) {
+        if (mRunning) {
+            mRunning = false;
+        } else {
             mRunning = true;
             ++mSetsCount;
             refreshSetsCount();
-            mReset.setEnabled(false);
             mLastTick = SystemClock.elapsedRealtime();
-            mStart.setText(getString(R.string.pause));
             mHandler.post(mUpdater);
-        } else {
-            mRunning = false;
-            mReset.setEnabled(true);
-            mStart.setText(getString(R.string.start));
         }
+
+        refreshButtons();
     }
 
     public void reset() {
@@ -167,6 +166,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mSetsCount = 0;
         mResetSetsCount.setEnabled(false);
         refreshSetsCount();
+    }
+
+    private void refreshButtons() {
+        if (mRunning) {
+            mReset.setEnabled(false);
+            mStart.setText(getString(R.string.pause));
+        } else {
+            mReset.setEnabled(true);
+            mStart.setText(getString(R.string.start));
+        }
     }
 
     private void refreshTimer() {
