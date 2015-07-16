@@ -42,5 +42,9 @@ SUCH DAMAGE.
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="46f49cc69ebe5f0bd7fdbd7ea04f4acf5a59ac60" />
     </application>
-</manifest> 
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>
